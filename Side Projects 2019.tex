@@ -6,7 +6,7 @@
 
 \usepackage{amsmath,amsthm}
 \usepackage{mathtools}
-\usepackage{parskip}
+%\usepackage{parskip}
 \usepackage{amssymb}
 \usepackage[margin=1.0in]{geometry}
 \usepackage{minted}
@@ -14,42 +14,43 @@
 \usepackage[hyphens]{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily,columns=flexible,frame=single,breaklines=true}
+\lstset{basicstyle=\ttfamily,columns=flexible,frame=single,breaklines=true,linewidth=1\textwidth}
 \usepackage{graphicx}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-At 2017--2019 job I worked on several side projects.
+At my 2017--2019 job as a network management technician I built several side projects.
 I hope that these programs will be useful to others after I leave.
 This document catalogs the purpose, capability, and usage of each program.
 Only projects that were written directly in support of my job are listed here.
-None of these programs require privileged access or installation, although host-based firewalls may interfere with network-aware programs.
+None of these programs require privileged access or installation.
+Host-based firewalls may interfere with networking.
 \end{abstract}
 
-\tableofcontents
+%\tableofcontents
 
 \section{Connection Map} \label{sec:ConnectionMap}
 
-\textbf{Location}: \url{https://github.com/wjholden/Connection-Map}
+\noindent \textbf{Location:} \url{https://github.com/wjholden/Connection-Map}
 
-\textbf{Input}: Syslog messages on UDP port 514 from a Cisco ASA.
+\noindent \textbf{Input:} Syslog messages on UDP port 514 from a Cisco ASA.
 
-\textbf{Output}: World map with TCP/UDP connections plotted to their estimated geographical location (see figure \ref{fig:connection-map}).
+\noindent \textbf{Output:} World map marked with the location of network connections (see figure \ref{fig:connection-map}).
 
-\textbf{Language}: Java
+\noindent \textbf{Language:} Java 8
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{Connection-Map}
+\includegraphics[width=.80\textwidth]{Connection-Map}
 \caption{Connection Map}
 \label{fig:connection-map}
 \end{figure}
 
-Connection Map is a Java 8 program to visualize network connections through a Cisco ASA firewall on a map. It uses the GeoLite2 ``GeoIP'' database available from \url{https://www.maxmind.com}.
+Connection Map is a pure-Java program to visualize network connections through a Cisco ASA firewall on a map. It uses the GeoLite2 ``GeoIP'' database available from \url{https://www.maxmind.com}.
 
-Download the entire project from GitHub with the ``Clone or download'' button and select ``Download ZIP.'' Execute the runnable JAR at \texttt{Connection-Map/Connection\_Map.jar}. The \texttt{Connection-Map/lib/} folder contains all necessary dependencies. Press \texttt{h} for ``help'' inside the program.
+Download the entire project from GitHub with the ``Clone or download'' button by clicking ``Download ZIP.'' Execute the runnable JAR at \texttt{Connection-Map/Connection\_Map.jar}. The \texttt{Connection-Map/lib/} folder contains all necessary dependencies. Press \texttt{h} for ``help'' inside the program.
 
 Connection Map passively listens on UDP port 514 for Syslog messages. The program actually opens UDP port 514 as a multicast on the non-standard group \texttt{239.5.1.4}. Connection Map does not allow the operator to select which network interface it will bind to; binding decisions are left to the operating system. Microsoft Windows may bind the socket to an unexpected network interface. Use the command \texttt{netsh interface ipv4 show join} to observe which network interface the socket bound to. Npcap (included with Wireshark) may install a \texttt{Npcap Loopback Adapter} interface and VMware may install a \texttt{VMnet1} interface. These interfaces may have a faster ``speed'' and therefore lower route metric than the physical Ethernet and Wi-Fi interfaces (see \url{https://github.com/nmap/nmap/issues/1605}). If \texttt{netsh interface ipv4 show join} shows that \texttt{239.5.1.4} is joined on the incorrect interface, try disabling the other interface or change its metric (\texttt{Set-NetRoute}).
 
@@ -69,17 +70,17 @@ Connection Map has limited utility in practice. This program is primarily ``eye 
 
 \section{Route Monitor}
 
-\textbf{Location}: \url{https://github.com/wjholden/Route-Monitor}
+\noindent \textbf{Location:} \url{https://github.com/wjholden/Route-Monitor}
 
-\textbf{Input}: One or more network addresses, subnet masks, and network descriptions as space-separated command-line arguments. Network descriptions may contain spaces if the entire description is surrounded witih quotation marks.
+\noindent \textbf{Input:} One or more network addresses, subnet masks, and network descriptions as space-separated command-line arguments.
 
-\textbf{Output}: A graphical panel of squares showing route advertisements (see figure \ref{fig:Route-Monitor-1}) and a textual representation of routes learned or removed on standard output.
+\noindent \textbf{Output:} A graphical panel of squares showing route advertisements (see figure \ref{fig:Route-Monitor-1}) and textual logs of routes learned or removed as standard output.
 
-\textbf{Language}: Java
+\noindent \textbf{Language:} Java 8
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{Route-Monitor-1}
+\includegraphics[width=.80\textwidth]{Route-Monitor-1}
 \caption{Route Monitor}
 \label{fig:Route-Monitor-1}
 \end{figure}
@@ -135,22 +136,22 @@ Press \texttt{f} to view this program in fullscreen and use the + and - keys to 
 
 \section{lsdb.js}
 
-\textbf{Location}: \url{https://wjholden.com/lsdb} and \url{https://github.com/wjholden/lsdb.js}
+\noindent \textbf{Location:} \url{https://wjholden.com/lsdb} and \url{https://github.com/wjholden/lsdb.js}
 
-\textbf{Input}: OSPF LSDB gathered by \texttt{snmpwalk}.
+\noindent \textbf{Input:} OSPF LSDB gathered by \texttt{snmpwalk}.
 
-\textbf{Output}: OSPF LSDB in both DOT format and in graphical format (see figure \ref{fig:lsdb}).
+\noindent \textbf{Output:} OSPF LSDB in both DOT format and in graphical format (see figure \ref{fig:lsdb}).
 
-\textbf{Language}: JavaScript
+\noindent \textbf{Language:} JavaScript
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{lsdb.PNG}
+\includegraphics[width=.80\textwidth]{lsdb.PNG}
 \caption{lsdb.js}
 \label{fig:lsdb}
 \end{figure}
 
-lsdb.js is a derivative of an earlier Python program, Area Monitor (\url{https://github.com/wjholden/Area-Monitor}). Area Monitor began as an effort to peer with OSPF routers over IP protocol number 89. My first experiment with such low-level programming was in a C program (\url{https://github.com/wjholden/hello-ospf}). Low-level network programming is very difficult. After significant research and experimentation, I realized that you can get the LSDB in its entirety directly from a router using SNMP.
+lsdb.js is a derivative of an earlier Python program, Area Monitor (\url{https://github.com/wjholden/Area-Monitor}). Area Monitor began as an effort to peer with OSPF routers over IP protocol number 89. My first experiment with such low-level programming was several years ago with C (\url{https://github.com/wjholden/hello-ospf}). Java is only suitable for network programming in TCP and UDP. For protocols other than TCP and UDP, one needs access to raw sockets. Low-level network programming is very difficult. After significant research and experimentation, I realized that you can get the LSDB in its entirety directly from a router using SNMP.
 
 The \texttt{snmpwalk} command is an easy and useful method to gather the LSDB. Either of the following commands are sufficient to gather the LSDB over SNMPv3. Use the latter if the OSPF-MIB is not available to \texttt{snmpwalk}. lsdb.js consists of only four total files (one \texttt{.html} and three \texttt{.js}) that can be hosted as static content anywhere or viewed locally.
 
@@ -163,7 +164,7 @@ Paste the output from \texttt{snmpwalk} into the left text area.
 
 lsdb.js translates the link state database to the DOT format used by GraphViz. The program can interpret router and network link state advertisements (LSAs). These LSAs may be switched on or off by toggling the checkboxes shown in the web page. The DOT output is shown in the second text area.
 
-Finally, lsdb.js calls Viz.js (\url{http://viz-js.com/}), an emscripten (\url{https://emscripten.org}) build of Graphviz (\url{https://www.graphviz.org}), to render the DOT output as an image. This image is shown in the web page.
+Finally, lsdb.js calls Viz.js (\url{http://viz-js.com/}) to render the DOT output as an image. Viz.js is an emscripten (\url{https://emscripten.org}) build of Graphviz (\url{https://www.graphviz.org}). The generated graph is dynamically added to the web page as shown in figure \ref{fig:lsdb}.
 
 Operators may edit the text in both text areas to customize their graphic.
 
@@ -177,17 +178,17 @@ The layout of network diagrams is generally less than beautiful. The network dia
 
 \section{Node Monitor}
 
-\textbf{Location}: \url{https://github.com/wjholden/Node-Monitor}
+\noindent \textbf{Location:} \url{https://github.com/wjholden/Node-Monitor}
 
-\textbf{Input}: A list of hostnames or IP addresses to monitor as a file or as standard input.
+\noindent \textbf{Input:} A list of hostnames or IP addresses to monitor as a file or as standard input.
 
-\textbf{Output}: A table showing the reachability of each device (see figure \ref{fig:Node-Monitor}).
+\noindent \textbf{Output:} A table showing the reachability of each device (see figure \ref{fig:Node-Monitor}).
 
-\textbf{Language}: Java
+\noindent \textbf{Language:} Java 8
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{Node-Monitor}
+\includegraphics[width=.80\textwidth]{Node-Monitor}
 \caption{Node Monitor}
 \label{fig:Node-Monitor}
 \end{figure}
@@ -224,17 +225,17 @@ Node Monitor's graphical user interface is not at all polished. Use the + and - 
 
 \section{Key Chain Generator} \label{sec:KeyChain}
 
-\textbf{Location}: \url{https://wjholden.com/keychain}
+\noindent \textbf{Location:} \url{https://wjholden.com/keychain}
 
-\textbf{Input}: Number of years (1--10) of keys to generate.
+\noindent \textbf{Input:} Number of years (1--10) of keys to generate.
 
-\textbf{Output}: A key chain in the format Cisco IOS expects with three overlapping keys per year and one key (always key number 255) with an infinite lifetime (see figure \ref{fig:keychain}).
+\noindent \textbf{Output:} A key chain in the format Cisco IOS expects with three overlapping keys per year and one key (always key number 255) with an infinite lifetime (see figure \ref{fig:keychain}).
 
-\textbf{Language}: JavaScript
+\noindent \textbf{Language:} JavaScript
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{Key-Chain.PNG}
+\includegraphics[width=.80\textwidth]{Key-Chain}
 \caption{Key Chain Generator}
 \label{fig:keychain}
 \end{figure}
@@ -247,18 +248,48 @@ Those who modify this software or its output should avoid using keys numbered 0 
 
 \section{CommSync II Output Interpreter}
 
-\textbf{Location}: \url{https://wjholden.com/commsync}
+\noindent \textbf{Location:} \url{https://wjholden.com/commsync}
 
-\textbf{Input}: 
+\noindent \textbf{Input:} Output of commands  \texttt{\$SSTA*}, \texttt{\$SIGP*}, \texttt{\$AZL1*}, \texttt{\$POS1*}, \texttt{\$SVS1*}, and \texttt{\$TPOP*}.
 
-\textbf{Output}: 
+\noindent \textbf{Output:}  Friendlier textual description of the data based on FEI-Zyfer's specification of serial communication protocol in document 385-8002.
 
-\textbf{Language}: JavaScript
+\noindent \textbf{Language:} JavaScript
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.80\textwidth]{CommSync}
+\caption{CommSync II Output Interpreter}
+\label{fig:CommSync}
+\end{figure}
 
 The organization I worked for from 2017--2019 operates CommSync II devices (``CommSync'').
 The CommSync is a GPS and atomic clock which provides timing.
-Younger network technicians may be surprised to learn that timing was a major consideration in the planning and operation of telecommunications.
-The CommSync devices serve as an external time reference 
+Younger network technicians may be surprised to learn that timing was a major consideration in the planning and operation of traditional telecommunications (``telecom'') equipment.
+External timing was used to deliver both speed and reliability.
+Ethernet is a ``best effort'' protocol designed to tolerate collisions when two or more stations transmit at once.
+Furthermore, the physical layer of IEEE 802.3 uses Manchester coding to transmit timing in-band.
+By contrast, DS0 circuits aggregated into a DS1 did not provide in-band timing but needed to operate on precisely the same frequency.
+The solution used by telecoms was to synchronize the clocks of networking equipment to a very accurate (and very expensive) timing source using the Building Integrating Timing Supply (BITS) protocol.
+(I am not an expert on this subject. See this question on Quora for a few more details: \url{https://qr.ae/TWKtAn}).
 
+The CommSync devices serve as Primary Reference Clock (PRS, see ITU G.811 \url{https://www.itu.int/rec/T-REC-G.811/}) for legacy Asynchronous Transfer Mode (ATM) and Synchronous Optical Networking (SONET) equipment.
+This organization operates Alcatel-Lucent 7270, 7470, 3600, 3630, and 1677 equipment.
+ATM control cards and SONET timing cards are ``wire-wrapped'' to T1/E1 ports of the CommSync using twisted-pair cables.
+
+CommSync devices are managed using Telnet or SSH.
+The specification for the command-line interface is defined by the National Marine Electronics Association (NMEA).
+NMEA ``sentences'' begin of a ``\texttt{\$}'' symbol and end with ``\texttt{*}''.
+All commands are four letters long.
+
+The output of NMEA commands is not intended to be read by humans.
+The output of most commands is a list of comma-separated hexadecimal values.
+To assist with interpretting these outputs, I developed the CommSync II Output Interpreter program. This program is pure JavaScript.
+The supported commands are \texttt{\$SSTA*} (system status), \texttt{\$SIGP*} (satellite signal quality), \texttt{\$AZL1*} (azimuth and elevation), \texttt{\$POS1*} (position), \texttt{\$SVS1*} (satellite signal status), and \texttt{\$TPOP*} (8-port T1/E1 port configuration and status).
+
+Contact the FEI-Zyfer, the manufacturer of the CommSync II, at \url{techsupport@fei-zyfer.com} or (714) 933-4003 to request detailed information.
+The document number for the user's manual is 385-8000.
+The serial communication protocol is specified in document 385-8002.
+Optional modules for the CommSync II are described in document 385-8003.
 
 \end{document}
